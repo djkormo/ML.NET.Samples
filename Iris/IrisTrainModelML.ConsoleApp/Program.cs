@@ -31,21 +31,35 @@ namespace IrisTrainModelML.ConsoleApp
             ITransformer mlModel = mlContext.Model.Load(GetAbsolutePath(MODEL_FILEPATH), out DataViewSchema inputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
 
-            // Create sample data to do a single prediction with it 
-            ModelInput sampleData = CreateSingleDataSample(mlContext, DATA_FILEPATH);
+            Random random = new Random();  
+            //index = random.Next(1, 1000);  
+            int y;
 
+            for (int i=0;i<=10;i++)
+            {
+
+            // Create sample data to do a single prediction with it
+            y= random.Next(1, 100); 
+            ModelInput sampleData = CreateSingleDataSample(mlContext, DATA_FILEPATH,y);
+
+            Console.WriteLine($"Iteration [{i}] for index {y}"); 
             // Try a single prediction
             ModelOutput predictionResult = predEngine.Predict(sampleData);
 
+            Console.WriteLine($"SepalLength --> Actual value: [{sampleData.SepalLength}]");
+            Console.WriteLine($"SepalWidth --> Actual value: [{sampleData.SepalWidth}]");
+            Console.WriteLine($"PetalLength --> Actual value: [{sampleData.PetalLength}]");
+            Console.WriteLine($"PetalWidth --> Actual value: [{sampleData.PetalWidth}]");
             Console.WriteLine($"Single Prediction --> Actual value: {sampleData.Label} | Predicted value: {predictionResult.Prediction} | Predicted scores: [{String.Join(",", predictionResult.Score)}]");
-
+            } // of for loop 
             Console.WriteLine("=============== End of process, hit any key to finish ===============");
             Console.ReadKey();
         }
 
         // Method to load single row of data to try a single prediction
         // You can change this code and create your own sample data here (Hardcoded or from any source)
-        private static ModelInput CreateSingleDataSample(MLContext mlContext, string dataFilePath)
+        private static ModelInput CreateSingleDataSample(MLContext mlContext, string dataFilePath,int index
+        )
         {
             // Read dataset to get a single row for trying a prediction          
             IDataView dataView = mlContext.Data.LoadFromTextFile<ModelInput>(
@@ -57,7 +71,8 @@ namespace IrisTrainModelML.ConsoleApp
 
             // Here (ModelInput object) you could provide new test data, hardcoded or from the end-user application, instead of the row from the file.
             ModelInput sampleForPrediction = mlContext.Data.CreateEnumerable<ModelInput>(dataView, false)
-                                                                        .First();
+                                                                        //.First();
+                                                                        .ElementAt(index);
             return sampleForPrediction;
         }
 
