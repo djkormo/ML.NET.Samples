@@ -1,5 +1,10 @@
 RND=$RANDOM
 
+# based on 
+# https://github.com/MicrosoftDocs/azure-docs/blob/master/articles/storage/files/storage-how-to-use-files-cli.md
+
+# https://microsoft.github.io/AzureTipsAndTricks/blog/tip174.html
+
 ML_LOCATION=northeurope
 ML_GROUP=rg-ml-net
 ML_STACCOUNT=staccmlnet$RND
@@ -40,8 +45,8 @@ az storage container create --name models --account-key $ACC_KEY --account-name 
 
 
 
-az storage file upload --account-name $ML_STACCOUNT \
-    --account-key $ACC_KEY \
-	--share-name "models" \
-	--source "MLModel.zip" \
-    --path "MLModel,zip"
+#az storage file upload --account-name $ML_STACCOUNT \
+#    --account-key $ACC_KEY \
+#	--share-name "models" \
+#	--source "MLModel.zip" \
+#   --path "models/MLModel,zip"
