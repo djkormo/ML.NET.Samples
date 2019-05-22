@@ -19,7 +19,7 @@ namespace IrisTrainModelML.ConsoleApp
         private const string MODEL_FILEPATH = @"MLModel.zip";
 
         //Dataset to use for predictions 
-        private const string DATA_FILEPATH = @"C:\development\ml.net\iris\iris.csv";
+        private const string DATA_FILEPATH = @"data/iris.csv";
 
         static void Main(string[] args)
         {

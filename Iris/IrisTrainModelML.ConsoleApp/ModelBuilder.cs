@@ -16,8 +16,8 @@ namespace IrisTrainModelML.ConsoleApp
 {
     public static class ModelBuilder
     {
-        private static string TRAIN_DATA_FILEPATH = @"C:\development\ml.net\iris\iris.csv";
-        private static string MODEL_FILEPATH = @"../../../../IrisTrainModelML.Model/MLModel.zip";
+        private static string TRAIN_DATA_FILEPATH = @"data/iris.csv";
+        private static string MODEL_FILEPATH = @"MLModel.zip";
 
         // Create MLContext to be shared across the model creation workflow objects 
         // Set a random seed for repeatable/deterministic results across multiple trainings.
