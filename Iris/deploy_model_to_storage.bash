@@ -33,4 +33,15 @@ az functionapp config appsettings set --name $ML_FUNCAPP --resource-group $ML_GR
 az storage account keys list --account-name $ML_STACCOUNT --resource-group $ML_GROUP
 
 
-#az storage container create --name models --account-key YOURKEY --account-name mlnetdemostorage1
+
+ACC_KEY=$(az storage account keys list --resource-group $ML_GROUP --account-name $ML_STACCOUNT --query "[0].value" | tr -d '"')
+
+az storage container create --name models --account-key $ACC_KEY --account-name $ML_STACCOUNT
+
+
+
+az storage file upload --account-name $ML_STACCOUNT \
+    --account-key $ACC_KEY \
+	--share-name "models" \
+	--source "MLModel.zip" \
+    --path "MLModel,zip"
