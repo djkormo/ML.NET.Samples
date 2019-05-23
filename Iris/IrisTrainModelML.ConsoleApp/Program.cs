@@ -26,8 +26,10 @@ namespace IrisTrainModelML.ConsoleApp
             MLContext mlContext = new MLContext();
 
             // Training code used by ML.NET CLI and AutoML to generate the model
+            Console.WriteLine("=============== Creating model ===============");
             ModelBuilder.CreateModel();
-
+            Console.WriteLine("=============== Model created, hit any key to finish ===============");
+            Console.ReadKey();
             ITransformer mlModel = mlContext.Model.Load(GetAbsolutePath(MODEL_FILEPATH), out DataViewSchema inputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
 
@@ -39,7 +41,7 @@ namespace IrisTrainModelML.ConsoleApp
             {
 
             // Create sample data to do a single prediction with it
-            y= random.Next(1, 100); 
+            y= random.Next(1, 140); 
             ModelInput sampleData = CreateSingleDataSample(mlContext, DATA_FILEPATH,y);
 
             Console.WriteLine($"Iteration [{i}] for index {y}"); 
@@ -50,7 +52,9 @@ namespace IrisTrainModelML.ConsoleApp
             Console.WriteLine($"SepalWidth --> Actual value: [{sampleData.SepalWidth}]");
             Console.WriteLine($"PetalLength --> Actual value: [{sampleData.PetalLength}]");
             Console.WriteLine($"PetalWidth --> Actual value: [{sampleData.PetalWidth}]");
-            Console.WriteLine($"Single Prediction --> Actual value: {sampleData.Label} | Predicted value: {predictionResult.Prediction} | Predicted scores: [{String.Join(",", predictionResult.Score)}]");
+            Console.WriteLine($"Single Prediction --> Actual value: [{sampleData.Label}]"); 
+            Console.WriteLine($"Predicted value: [{predictionResult.Prediction}]");
+            Console.WriteLine($"Predicted scores: [{String.Join(",", predictionResult.Score)}]");
             } // of for loop 
             Console.WriteLine("=============== End of process, hit any key to finish ===============");
             Console.ReadKey();

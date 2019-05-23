@@ -17,7 +17,7 @@ namespace IrisTrainModelML.ConsoleApp
     public static class ModelBuilder
     {
         private static string TRAIN_DATA_FILEPATH = @"data/iris.csv";
-        private static string MODEL_FILEPATH = @"MLModel.zip";
+        private static string MODEL_FILEPATH = @"../MLModel.zip";
 
         // Create MLContext to be shared across the model creation workflow objects 
         // Set a random seed for repeatable/deterministic results across multiple trainings.
@@ -80,6 +80,7 @@ namespace IrisTrainModelML.ConsoleApp
             Console.WriteLine("=============== Cross-validating to get model's accuracy metrics ===============");
             var crossValidationResults = mlContext.MulticlassClassification.CrossValidate(trainingDataView, trainingPipeline, numberOfFolds: 5, labelColumnName: "Label");
             PrintMulticlassClassificationFoldsAverageMetrics(crossValidationResults);
+            
         }
         private static void SaveModel(MLContext mlContext, ITransformer mlModel, string modelRelativePath, DataViewSchema modelInputSchema)
         {
@@ -87,6 +88,10 @@ namespace IrisTrainModelML.ConsoleApp
             Console.WriteLine($"=============== Saving the model  ===============");
             mlContext.Model.Save(mlModel, modelInputSchema, GetAbsolutePath(modelRelativePath));
             Console.WriteLine("The model is saved to {0}", GetAbsolutePath(modelRelativePath));
+
+            mlContext.Model.Save(mlModel, modelInputSchema, modelRelativePath);
+            Console.WriteLine("The model is saved to {0}", modelRelativePath);
+
         }
 
         public static string GetAbsolutePath(string relativePath)
@@ -111,6 +116,9 @@ namespace IrisTrainModelML.ConsoleApp
             {
                 Console.WriteLine($"    LogLoss for class {i + 1} = {metrics.PerClassLogLoss[i]:0.####}, the closer to 0, the better");
             }
+            // confusion matrix 
+            Console.WriteLine(metrics.ConfusionMatrix.GetFormattedConfusionTable());
+
             Console.WriteLine($"************************************************************");
         }
 
