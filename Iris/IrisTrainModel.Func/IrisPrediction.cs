@@ -7,7 +7,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Azure.WebJobs.Extensions.Storage;
-namespace Company.Function
+using Microsoft.Extensions.ML;
+namespace djkormo.Function
 {
     /* 
     public static Class ModelInput 
@@ -60,20 +61,20 @@ namespace Company.Function
     //Read incoming request body
     string requestBody = new StreamReader(req.Body).ReadToEnd();
 
-
-   // log.Info(requestBody);
+    log.LogInformation("C# HTTP trigger function processed a request.");
+    log.LogInformation(requestBody);
 
     //Bind request body to IrisData object
-    IrisData data = JsonConvert.DeserializeObject<ModelInput>(requestBody);
+    ModelInput data = JsonConvert.DeserializeObject<ModelInput>(requestBody);
 
     //Load prediction model
-    var model = PredictionModel.ReadAsync<IrisData, IrisPrediction>(serializedModel).Result;
+    var model = PredictionModel.ReadAsync<ModelInput, ModelOutput>(serializedModel).Result;
 
     //Make prediction
     ModelOutput prediction = model.Predict(data);
 
     //Return prediction
-    return (IActionResult)new OkObjectResult(prediction.PredictedLabels);
+    return (IActionResult)new OkObjectResult(prediction.Prediction);
 }
 }
 }
