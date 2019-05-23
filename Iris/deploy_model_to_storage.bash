@@ -59,4 +59,6 @@ az storage container create --name models --account-key $ACC_KEY --account-name 
 
 az storage blob upload --account-name $ML_STACCOUNT  --account-key $ACC_KEY -c "models" -f $ML_MODEL_FILE -n $ML_MODEL_BLOB
 
+az storage blob list --container-name models --account-name $ML_STACCOUNT --output table
+
 
