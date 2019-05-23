@@ -11,19 +11,19 @@ namespace IrisTrainModelML.Model.DataModels
     public class ModelInput
     {
         [ColumnName("SepalLength"), LoadColumn(0)]
-        public string SepalLength { get; set; }
+        public float SepalLength { get; set; }
 
 
         [ColumnName("SepalWidth"), LoadColumn(1)]
-        public string SepalWidth { get; set; }
+        public float SepalWidth { get; set; }
 
 
         [ColumnName("PetalLength"), LoadColumn(2)]
-        public string PetalLength { get; set; }
+        public float PetalLength { get; set; }
 
 
         [ColumnName("PetalWidth"), LoadColumn(3)]
-        public string PetalWidth { get; set; }
+        public float PetalWidth { get; set; }
 
 
         [ColumnName("Label"), LoadColumn(4)]
