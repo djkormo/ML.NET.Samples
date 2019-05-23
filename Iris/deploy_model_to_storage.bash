@@ -12,6 +12,19 @@ ML_FUNCAPP=mlnetfuncapp$RND
 
 ML_MODEL_FILE=$1
 
+ML_MODEL_BLOB=$2
+
+if [[ $# -eq 0 ]] ; then
+    echo 'Nie podano nazwy pliku z modelem jako parametru wejsciowego pierwszego !'
+    exit 1
+fi
+
+
+if [[ $# -eq 1 ]] ; then
+    echo 'Nie podano nazwy blobu jako parametru wejsciowego drugiego !'
+    exit 1
+fi
+
 # domyslna nazwa grupy 
 az configure --defaults group=$ML_GROUP
 
@@ -44,6 +57,6 @@ ACC_KEY=$(az storage account keys list --resource-group $ML_GROUP --account-name
 
 az storage container create --name models --account-key $ACC_KEY --account-name $ML_STACCOUNT
 
-az storage blob upload --account-name $ML_STACCOUNT  --account-key $ACC_KEY -c "models" -f $ML_MODEL_FILE -n $ML_MODEL_FILE
+az storage blob upload --account-name $ML_STACCOUNT  --account-key $ACC_KEY -c "models" -f $ML_MODEL_FILE -n $ML_MODEL_BLOB
 
 
