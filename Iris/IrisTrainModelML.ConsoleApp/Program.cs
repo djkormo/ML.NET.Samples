@@ -16,7 +16,7 @@ namespace IrisTrainModelML.ConsoleApp
     class Program
     {
         //Machine Learning model to load and use for predictions
-        private const string MODEL_FILEPATH = @"MLModel.zip";
+        private const string MODEL_FILEPATH = @"../MLModel.zip";
 
         //Dataset to use for predictions 
         private const string DATA_FILEPATH = @"data/iris.csv";
