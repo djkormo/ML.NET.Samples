@@ -1,15 +1,12 @@
-
-using System;
 using System.IO;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Microsoft.ML;
 using Microsoft.Azure.Storage.Blob;
+using Microsoft.Azure.WebJobs.Extensions.Storage;
 namespace Company.Function
 {
     /* 
@@ -37,12 +34,15 @@ namespace Company.Function
     }
     
     */
+     // http://luisquintanilla.me/2018/08/21/serverless-machine-learning-mlnet-azure-functions/   
+     // https://github.com/Azure/azure-webjobs-sdk/issues/1879
+
     public static class IrisPrediction
     {
         [FunctionName("IrisPrediction")]
         public static IActionResult Run(
     [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req,
-    [Blob("models/model.zip", FileAccess.Read)] Stream serializedModel,
+    [Blob("models/model.zip", FileAccess.Read, Connection = "AzureWebJobsStorage")] Stream serializedModel,
     ILogger log )
 {
     // Workaround for Azure Functions Host
@@ -61,7 +61,7 @@ namespace Company.Function
     string requestBody = new StreamReader(req.Body).ReadToEnd();
 
 
-    log.Info(requestBody);
+   // log.Info(requestBody);
 
     //Bind request body to IrisData object
     IrisData data = JsonConvert.DeserializeObject<ModelInput>(requestBody);
