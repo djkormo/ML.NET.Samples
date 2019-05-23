@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Azure.WebJobs.Extensions.Storage;
 using Microsoft.Extensions.ML;
+
 namespace djkormo.Function
 {
     /* 
@@ -68,7 +69,7 @@ namespace djkormo.Function
     ModelInput data = JsonConvert.DeserializeObject<ModelInput>(requestBody);
 
     //Load prediction model
-    var model = PredictionModel.ReadAsync<ModelInput, ModelOutput>(serializedModel).Result;
+    var model = PredictionEngine.ReadAsync<ModelInput, ModelOutput>(serializedModel).Result;
 
     //Make prediction
     ModelOutput prediction = model.Predict(data);
