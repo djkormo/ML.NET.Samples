@@ -30,7 +30,7 @@ namespace IrisTrainModelML.ConsoleApp
             ModelBuilder.CreateModel();
             Console.WriteLine("=============== Model created, hit any key to finish ===============");
             Console.ReadKey();
-            ITransformer mlModel = mlContext.Model.Load(GetAbsolutePath(MODEL_FILEPATH), out DataViewSchema inputSchema);
+            ITransformer mlModel = mlContext.Model.Load(MODEL_FILEPATH, out DataViewSchema inputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
 
             Random random = new Random();  
