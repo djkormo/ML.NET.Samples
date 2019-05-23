@@ -36,7 +36,8 @@ namespace IrisTrainModel
             Console.WriteLine($"PetalLength --> Actual value: [{SampleData.PetalLength}]");
             Console.WriteLine($"PetalWidth --> Actual value: [{SampleData.PetalWidth}]");
             Console.WriteLine($"Predicted flower type is: {prediction.Prediction}");
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Press any key");
+            Console.ReadKey();
         }
     }
 }
