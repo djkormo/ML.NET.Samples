@@ -10,6 +10,8 @@ ML_GROUP=rg-ml-net
 ML_STACCOUNT=staccmlnet$RND
 ML_FUNCAPP=mlnetfuncapp$RND
 
+ML_MODEL_FILE=$1
+
 # domyslna nazwa grupy 
 az configure --defaults group=$ML_GROUP
 
@@ -35,18 +37,13 @@ az functionapp create --name $ML_FUNCAPP --storage-account $ML_STACCOUNT --consu
 
 az functionapp config appsettings set --name $ML_FUNCAPP --resource-group $ML_GROUP --settings FUNCTIONS_EXTENSION_VERSION=beta
 
-az storage account keys list --account-name $ML_STACCOUNT --resource-group $ML_GROUP
-
+#az storage account keys list --account-name $ML_STACCOUNT --resource-group $ML_GROUP
 
 
 ACC_KEY=$(az storage account keys list --resource-group $ML_GROUP --account-name $ML_STACCOUNT --query "[0].value" | tr -d '"')
 
 az storage container create --name models --account-key $ACC_KEY --account-name $ML_STACCOUNT
 
+az storage blob upload --account-name $ML_STACCOUNT  --account-key $ACC_KEY -c "models" -f $ML_MODEL_FILE -n $ML_MODEL_FILE
 
 
-#az storage file upload --account-name $ML_STACCOUNT \
-#    --account-key $ACC_KEY \
-#	--share-name "models" \
-#	--source "MLModel.zip" \
-#   --path "models/MLModel,zip"
